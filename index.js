@@ -8,8 +8,6 @@ dotenv.config()
 
 puppeteer.launch({
   executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
-  headless: "new",
-  args: [ '--no-sandbox', '--disable-setuid-sandbox',]
 }).then(async browser => {
   const port = process.env.PORT || 3000
 
@@ -23,6 +21,9 @@ app.get("/", (req, res) => {
 })
 
 app.get("/link/:query", async (req, res) => {
+  let browser = await puppeteer.launch({
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+  });
   const {query} = req.params
   const baseUrl = "https://music.youtube.com/search?q=" + query
   const [page] = await browser.pages();
@@ -61,10 +62,15 @@ app.get("/link/:query", async (req, res) => {
 
   const fullLink = await link?.evaluate(el => el.href);
 
+  browser.close()
+
   res.json({msg: fullLink})
 })
 
 app.get("/recommendation/:id", async (req, res) => {
+  let browser = await puppeteer.launch({
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+  });
   const baseUrl = "https://music.youtube.com/watch?v=" + req.params.id
   const [page] = await browser.pages();
   const ua =

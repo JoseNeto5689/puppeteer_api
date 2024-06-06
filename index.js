@@ -8,6 +8,8 @@ dotenv.config()
 
 puppeteer.launch({
   executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
+  headless: "new",
+  args: [ '--no-sandbox', '--disable-setuid-sandbox',]
 }).then(async browser => {
   const port = process.env.PORT || 3000
 

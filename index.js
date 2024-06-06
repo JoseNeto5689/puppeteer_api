@@ -55,7 +55,7 @@ app.get("/link/:query", async (req, res) => {
   res.json({msg: fullLink})
 })
 
-app.get("/recommendation/?id", async (req, res) => {
+app.get("/recommendation/:id", async (req, res) => {
   let browser = await puppeteer.launch({
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   });

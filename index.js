@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
   res.send("...")
 })
 
-app.get("/link/?query", async (req, res) => {
+app.get("/link/:query", async (req, res) => {
   let browser = await puppeteer.launch({
     executablePath: process.env.PUPPETEER_EXECUTABLE_PATH,
   });
